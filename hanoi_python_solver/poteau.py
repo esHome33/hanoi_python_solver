@@ -30,13 +30,13 @@ class Poteau:
             counter +=1
 
     @classmethod
-    def createFromABC(cls, abc_notation:str, id:int):
+    def createFromABC(cls, abc_notation:str, id:int) -> "Poteau":
         disks = ABC_Notation.generateDisks(abc_notation, id)
         ret = Poteau(disks, id)
         return ret
     
     @property
-    def isEmpty(self):
+    def isEmpty(self) -> bool:
         return len(self._disks) == 0
     
     @property

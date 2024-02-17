@@ -18,7 +18,7 @@ class Network:
         self.neighbors:Dict[str,List[Tuple[Node,float]]] = {}
         
     @classmethod
-    def fromAdjacencyMatrix(cls, file_name:str):
+    def fromAdjacencyMatrix(cls, file_name:str) -> "Network | None":
         """
         Reads an adjacency matrix placed in a text file. 1st line contains 0 and node names
         separated by space character. All the other lines begin with the name of the node
