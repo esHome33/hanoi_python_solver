@@ -1,6 +1,8 @@
 
 from typing import List, Self
-from abc_notation import ABC_Notation
+
+from hanoi_python_solver.abc_notation import ABC_Notation
+
 
 class Poteau:
     """

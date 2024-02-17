@@ -1,6 +1,7 @@
 from typing import List, Tuple
-from network import Network
-from poteau import Poteau
+from hanoi_python_solver.network import Network
+
+from hanoi_python_solver.poteau import Poteau
 
 
 class Hanoi:

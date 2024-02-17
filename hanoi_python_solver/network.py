@@ -1,7 +1,8 @@
 import heapq
 import sys
 from typing import Dict, List, Tuple
-from node import Node
+
+from hanoi_python_solver.node import Node
 
 
 class Network:
