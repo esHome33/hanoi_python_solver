@@ -4,14 +4,14 @@ from setuptools import setup , find_packages
 
 HERE = pathlib.Path(__file__).parent
 
-VERSION = "1.0.0"
+VERSION = "1.0.2"
 PACKAGE_NAME = "hanoi_python_solver"
 AUTHOR = "ESHome33"
 AUTHOR_EMAIL = "eshome.fr@gmail.com"
 URL = "https://github.com/esHome33/hanoi_python_solver/"
 
 LICENSE = 'MIT'
-DESCRIPTION = 'Describe your package in one sentence'
+DESCRIPTION = 'implementation of Tower of Hanoi game + shortest path to resolution at each step'
 LONG_DESCRIPTION = (HERE / "README.md").read_text()
 LONG_DESC_TYPE = "text/markdown"
 

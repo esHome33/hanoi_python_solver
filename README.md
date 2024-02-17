@@ -26,7 +26,7 @@ This package contains a method that constructs such a graph, in which each node 
 
 Install it from PyPI :
 ```shell
-python3 -m pip install requests
+pip install hanoi-python-solver
 ```
 
 After installation succeeded, open a new *.py file and create a python program. Create a new Tower of Hanoi game by instancianting a new `Hanoi` object and indicate the total desired number of disks. The starting situation of disks is that all disks are stacked on the **A** rod.
