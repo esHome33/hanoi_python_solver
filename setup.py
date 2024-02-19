@@ -4,7 +4,7 @@ from setuptools import setup , find_packages
 
 HERE = pathlib.Path(__file__).parent
 
-VERSION = "1.0.6"
+VERSION = "1.1.0"
 PACKAGE_NAME = "hanoi_python_solver"
 AUTHOR = "ESHome33"
 AUTHOR_EMAIL = "eshome.fr@gmail.com"
@@ -29,5 +29,5 @@ setup(name=PACKAGE_NAME,
       author_email=AUTHOR_EMAIL,
       url=URL,
       install_requires=INSTALL_REQUIRES,
-      packages=find_packages()
+      packages=find_packages(),
       )

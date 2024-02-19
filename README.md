@@ -22,6 +22,8 @@ When dealing with 3 rods and n disks, there are $3^n$ different positions of n d
 
 This package contains a method that constructs such a graph, in which each node is labelled with an ABC notation string. This allows you to easily get the shortest path from a position to another one.
 
+I implemented my own graph structure and the only methods needed to solve the problem of a Tower of Hanoi game : that is why this package depends on no other package.
+
 ## how to use this package :
 
 Install it from PyPI :
@@ -35,8 +37,42 @@ Then, get all the possible legal moves from this new position or use the `move()
 
 After a move, try to get the new ABC notation of the game with `getABC()` method from Hanoi.
 
-If you want to get the path to the goal (solution, end position, ...) : call `pathToSolution()` method to get a string that lists all different ABC notation string to follow in order to reach the end position.
+If you want to get the path to the goal (solution, end position, ...) or any other position of your choice : call Hanoi class `pathToSolution(position)` method to get a dictionnary with "path" and "moves" keys, that lists all different ABC notation string to follow in order to reach the end position, and a list of moves to play from current position to reach the end position.
 
+Here is a simple Tower of Hanoi player in Python language :
+
+```python
+
+from hanoi_python_solver.hanoi import Hanoi
+
+h = Hanoi(3)
+print("You are playing with Tower of Hanoi game and 3 disks all placed on 1st rod ! Enjoy ...\n")
+s=""
+while s != "END":
+    s = input("a move or SIT or SOL or END : ")
+    if s == "SIT":
+        print(h.getABC())
+    elif s == "SOL":
+        t = input(f" ==> position to reach ({h.nbDisks} letters) : ")
+        result = h.pathToSolution(t)
+        print(f"path = {result["path"]}")
+        print(f"moves = {result["moves"]}")
+    elif s == "END":
+        break
+    else:
+        mvt = s.split(",")
+        if len(mvt) == 2:
+            m1 = mvt[0]
+            m2 = mvt[1]
+            result_move = h.move((int(m1), int(m2)))
+            if not result_move:
+                print("Move not done !")
+            else:
+                print(f"after move ({m1},{m2}) : {h.getABC()}")
+        else:
+            print("Bad move ... try 1,2")
+
+```
 
 #
 

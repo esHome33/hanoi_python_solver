@@ -213,26 +213,29 @@ class Network:
             if not found:
                 entry.append((start, edge_weight))
         
-    def DOT_description(self) -> str:
+    def DOT_description(self, with_node_weight:bool = False) -> str:
         """
-        Generates the description of this Network in DOT language, 
+        Generates the description of this Network in DOT language
+        (https://fr.wikipedia.org/wiki/DOT_(langage)), 
         allowing you to easily get a graphical representation
         of the graph (example on https://edotor.net/)
 
+        Args:
+            with_node_weight (bool, optional): set this to True if 
+            you want node weight in your description. Defaults to False.
+
         Returns:
-            str: this Network in DOT language
+            str: this Network described in DOT language
         """
         ret:List[str] = ["graph {","node [style=filled]"]
         for k, liste in self.edges.items():
             dep_node = self.nodes.get(k)
-            if dep_node != None:                
-                dep_node_DOT = f'\"{dep_node.id}({dep_node.weight})\"'
-                #ret.append(dep_node_DOT)
+            if dep_node != None:
+                dep_node_DOT = f'\"{dep_node.id}({dep_node.weight})\"' if with_node_weight else f'\"{dep_node.id}\"'
                 for t in liste:
                     arr_node = self.nodes.get(t[0])
                     if arr_node != None:
-                        arr_node_DOT = f'\"{arr_node.id}({arr_node.weight})\"'
-                        #ret.append(arr_node_DOT)
+                        arr_node_DOT = f'\"{arr_node.id}({arr_node.weight})\"' if with_node_weight else f'\"{arr_node.id}\"'
                         ret.append(f"{dep_node_DOT}--{arr_node_DOT}   [label=\"{t[1]}\"]")
         ret.append("}")
         return '\n'.join(ret)

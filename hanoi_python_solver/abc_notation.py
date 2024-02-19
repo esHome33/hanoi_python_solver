@@ -1,5 +1,5 @@
 
-from typing import List
+from typing import Dict, List, Tuple
 
 
 class ABC_Notation:
@@ -65,4 +65,71 @@ class ABC_Notation:
         return ret
                 
             
+    @classmethod
+    def movementBetween(cls, notation1:str, notation2:str) -> Tuple[int,int] | None:
+        """
+        Detects the move done between the two ABC notation strings provided. This 
+        method doesn't verify if the move is legal (perhaps you may have put a 
+        disk on a smaller one)
+
+        Args:
+            notation1 (str): an ABC notation string
+            notation2 (str): an other ABC notation string
+
         
+        Returns:
+            Tuple[int,int] | None: the move done or None if string weren't correct 
+            ABC notations or if there was more than 1 difference between the two 
+            strings or if there is no difference between the two strings.
+        """
+        if not ABC_Notation.checkNotationABC(notation1) or not ABC_Notation.checkNotationABC(notation2):
+            return None
+        l1 = len(notation1)
+        l2 = len(notation2)
+        if l1 != l2:
+            return None
+        nb_differences:int = 0
+        diff:Dict[str, str]={}
+        position:int = -1
+        for x in range(l1):
+            c1 = notation1[x]
+            c2 = notation2[x]
+            if c1 != c2:
+                nb_differences += 1
+                position = x
+                diff = {
+                     "car1": c1,
+                     "car2": c2
+                }
+            if nb_differences == 2:
+                return None
+
+        if nb_differences == 0:
+            return None
+        
+        # there's only one diff here, at position position
+        
+        retour:Tuple[int, int] = (0,0)
+        c1 = diff.get("car1")
+        c2 = diff.get("car2")
+        try:
+            legal_move = notation2[position + 1:].index(str(c2)) < 0
+        except ValueError:
+            legal_move = True
+        if c1 == "A" and c2 == "B":
+            retour = (1,2)
+        elif c1 == "B" and c2 == "C":
+            retour = (2,3)
+        elif c1 == "A" and c2 == "C":
+            retour = (1,3)
+        elif c1 == "B" and c2 == "A":
+            retour = (2,1)
+        elif c1 == "C" and c2 == "B":
+            retour = (3,2)
+        elif c1 == "C" and c2 == "A":
+            retour = (3,1)
+        else:
+            return None
+        if not legal_move:
+            return None
+        return retour

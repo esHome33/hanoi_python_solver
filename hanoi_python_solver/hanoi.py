@@ -1,8 +1,7 @@
-from typing import List, Tuple
+from typing import Dict, List, Tuple
+from hanoi_python_solver.abc_notation import ABC_Notation
 from hanoi_python_solver.network import Network
-
 from hanoi_python_solver.poteau import Poteau
-
 
 class Hanoi:
     """
@@ -117,7 +116,20 @@ class Hanoi:
             ret.append((3,2))
         return ret
     
-    def pathToSolution(self, solution:str) -> str:
+    def pathToSolution(self, solution:str) -> Dict[str, str | List[Tuple[int, int]]]:
+        """
+        returns the path from the current position to the given solution 
+        (different moves to do in order to reach the solution).
+
+        Args:
+            solution (str): the ABC notation of the position to reach.
+
+        Returns:
+            Dict[str, str | List[Tuple[int, int]]]: 
+            a dictionnary containing :
+            - "path" : the different positions to go through before reaching the solution
+            - "moves" : a list of moves to go from current position to the solution
+        """
         # _graph stores the graph of all positions for this TOH game
         try:
             self._graph
@@ -126,11 +138,62 @@ class Hanoi:
             # so, let's initialize it !
             g:Network = Hanoi._constructGraph(self._nb_disks)
             self._graph = g
-        print(self._graph.DOT_description())
+        #print(self._graph.DOT_description())
         start_pos = self.getABC()
         result = self._graph.dijkstra(start_pos,solution)
         path = result["path"]
-        return path[0]
+        return {
+            "path": path[0],
+            "moves": self._moves_from_path(path[0])
+        }
+    
+    
+    def _moves_from_path(self, path:str) -> List[Tuple[int,int]]:
+        """
+        Creates a list of move from the path coming from pathToSolution method
+
+        Args:
+            path (str): path giving ABC notations with weight of each node 
+            and separated by "-"
+
+        Returns:
+            List[Tuple[int,int]]: a list of moves
+        """
+        retour:List[Tuple[int,int]] = []
+        pos = path.split("-")
+        notation_position:str | None = None
+        notation_position_precedente:str | None = None
+        for posit in pos:
+            position = posit.strip()            
+            index_parenthese = position.index("(")
+            notation_position = position[0:index_parenthese]
+            if notation_position_precedente == None:
+                notation_position_precedente = notation_position
+            else:
+                mvt = ABC_Notation.movementBetween(notation_position_precedente , notation_position)
+                if mvt != None:
+                    retour.append(mvt)
+                    notation_position_precedente = notation_position
+                else:
+                    raise ValueError("path presents ABC notation errors : call the developer of this package")
+        return retour
+    
+    
+    def graph_Of_Positions(self, with_nodes_weights:bool = False) -> str:
+        """
+        Gets the graph of differents positions in this Tower of Hanoi game.
+        The graph is decribed in DOT language (https://fr.wikipedia.org/wiki/DOT_(langage))
+
+        Returns:
+            str: the graph of all reachable positions in this TOH game.
+        """
+        try:
+            self._graph
+        except:
+            g:Network = Hanoi._constructGraph(self._nb_disks)
+            self._graph = g
+        return self._graph.DOT_description(with_nodes_weights)
+    
     
     @property
     def getPoteau1(self) -> Poteau:

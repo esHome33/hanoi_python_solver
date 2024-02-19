@@ -9,13 +9,15 @@
             "type": "debugpy",
             "request": "launch",
             "program": "${file}",
-            "console": "integratedTerminal"
+            "console": "integratedTerminal",
+            "args": ["-m"]
         },
         {
             "name": "Py: main",
             "type": "debugpy",
             "request": "launch",
-            "program": "./src/main.py"
+            "program": "./perso/main.py",
+            "args": ["-m"]
         }
     ]
 }
